@@ -1,0 +1,55 @@
+﻿@model Review
+@{
+    ViewData["Title"] = "ReviewDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Review Detail</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover">
+            @if (Model.Name == "")
+            {
+                <tr>
+                    <th colspan="2">There is nothing review Here.</th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th>Name</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>E-Mail</th>
+                    <td>@Model.Email</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>@Model.Date</td>
+                </tr>
+                <tr>
+                    <th>Point</th>
+                    <td>@Model.Point</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>@Model.Content</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <card class="card-footer">
+        <a asp-controller="Product" asp-action="ReviewDelete" asp-route-id="@Model.Id" title="Delete" class="btn btn-danger btn-md" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+    </card>
+</div>
+

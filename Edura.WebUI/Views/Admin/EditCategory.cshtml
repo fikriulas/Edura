@@ -1,0 +1,121 @@
+﻿@model AdminEditCategoryModel
+@{
+    ViewData["Title"] = "EditCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<form asp-controller="Admin" asp-action="EditCategory" method="post">
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Category</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @Html.AntiForgeryToken()
+            <div class="text-danger" asp-validation-summary="ModelOnly">
+
+            </div>
+            <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+        </div>
+        <card class="card-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </card>
+
+    </div>
+</form>
+
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Product List Of "@Model.Name"</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover">
+            <tr>
+                <th>#</th>
+                <th>Product Name</th>
+                <th>IsAppproved</th>
+                <th>IsHome</th>
+                <th>IsFeatures</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td><span class="badge @(item.IsAppproved == true ? " badge-success" : "badge-danger" )">@item.IsAppproved</span></td>
+                    <td><span class="badge @(item.IsHome == true ? " badge-success" : "badge-danger" )">@item.IsHome</span></td>
+                    <td><span class="badge @(item.IsFeatures == true ? " badge-success" : "badge-danger" )">@item.IsFeatures</span></td>
+                    <td>
+                        <a href="#" title="Edit" class="btn btn-info btn-circle btn-md">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-action="RemoveFromCategory" asp-controller="Admin" method="post">
+                            <input id="CategoryId" type="hidden" name="CategoryId" value="@Model.CategoryId" />
+                            <input id="ProductId" type="hidden" name="ProductId" value="@item.ProductId" />
+                            <button type="submit" title="Remove From Category" class="btn btn-danger btn-circle btn-md delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <card class="card-footer">
+        <button class="btn btn-primary">Create</button>
+    </card>
+</div>
+
+@section scripts
+{
+    <script>
+        $(".delete").click(function (event) {
+            event.preventDefault(); // sayfa postback olmasın.
+            var form = $(this).parent(); // buttonun parenti ile forma gittik.
+            var row = form.parent("td").parent("tr"); // satıra gittik.            
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            var data = { categoryId: $("#CategoryId", form).val(), productId: $("#ProductId", form).val() };
+            var dataWithToken = $.extend(data, { '__RequestVerificationToken': token });
+            $.ajax({
+                url: form.attr("action"),                
+                type: "Post",
+                data: dataWithToken,
+                beforeSend: function () {
+                    $("#ajax-loading").show();
+                },
+                complete: function () {
+                    $("#ajax-loading").hide();
+                },
+                success: function () {
+                    row.remove();
+                },
+                error: function () {
+                    console.log("hata");
+                }
+            });
+            
+        });
+    </script>
+}

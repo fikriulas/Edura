@@ -1,0 +1,261 @@
+﻿@model EditProductModel
+@{
+    ViewData["Title"] = "EditProduct";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<form asp-controller="AdminProduct" asp-action="EditProduct" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+                <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HtmlContent"></label>
+                <input asp-for="HtmlContent" class="form-control" />
+                <span class="text-danger" asp-validation-for="HtmlContent"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsAppproved"></label>
+                <input asp-for="IsAppproved" class="form-control" />
+                <span class="text-danger" asp-validation-for="IsAppproved"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsFeatures"></label>
+                <input asp-for="IsFeatures" class="form-control" />
+                <span class="text-danger" asp-validation-for="IsFeatures"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsHome"></label>
+                <input asp-for="IsHome" class="form-control" />
+                <span class="text-danger" asp-validation-for="IsHome"></span>
+            </div>
+            <div class="form-group">
+                <label>Categories</label>
+                <p style="margin-left:15px;">
+                    @foreach (var category in Model.Category)
+                    {
+                        @Html.Raw(category.Name + ", ");
+                    }
+                </p>
+            </div>
+            <div class="form-group">
+                <select class="selectpicker form-control" name="category[]" asp-items="ViewBag.Categories" multiple></select>
+                <span class="text-muted">If you do not make any selection, the categories will not be updated. </span>
+            </div>
+            <div class="form-group">
+                <label>File</label>
+
+                <input type="file" name="mainFile" class="form-control" />
+                <img src="~/edura/images/products/@Model.Image" style="height:150px;margin-top:15px;" />
+                <input type="hidden" asp-for="Image" value="@Model.Image" />
+            </div>
+
+        </div>
+        <card class="card-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </card>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add Attribute</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div id="Value" class="col-md-6">
+                    @foreach (var item in Model.Attributes)
+                    {
+
+                        <div class="form-group">
+                            <label>Attribute</label>
+                            <input type="text" name="attribute[]" id="attribute" value="@item.Attribute" class="form-control" />
+                        </div>
+                        <input type="hidden" name="attid[]" value="@item.Id" />
+                    }
+                </div>
+                <div id="key" class="col-md-6">
+                    @foreach (var item in Model.Attributes)
+                    {
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" name="value[]" id="value" value="@item.Value" class="form-control" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <card class="card-footer">
+            <button type="button" id="AddAttribute" title="Add Attribute" onclick="afterText()" class="btn btn-success">Add Attribute</button>
+        </card>
+    </div>
+
+
+    @section scripts{
+        <script>
+            function afterText() {
+                var attribute = '<div class="form-group"><label>Attribute</label><input type="text" name="attribute[]" id="attribute" class="form-control" /></div>';
+                var key = '<div class="form-group"><label>Value</label><input type="text" name="value[]" id="attribute" class="form-control" /></div>';
+
+                $("#Value").append(attribute);
+                $("#key").append(key);
+            }
+        </script>
+    }
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add Image</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body" id="imageArea">
+
+            <div id="imageGaller" style="width:450px;margin:auto">
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach (var item in Model.Images)
+                        {
+                            <div class="carousel-item">
+                                <img class="d-block" style="width:450px;height:250px;" src="~/edura/images/products/@item.Name" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        @for (int i = 0; i < Model.Images.Count(); i++)
+                        {
+                            <div class="carousel-item @(i==0 ? "active":"") ">
+                                <img class="d-block" style="width:450px;height:250px;" src="~/edura/images/products/@Model.Images[i].Name" />
+                            </div>
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>File</label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+        </div>
+        <card class="card-footer">
+            <button type="button" id="AddImage" title="Add Image" onclick="ImageAdd()" class="btn btn-success">Add Image</button>
+        </card>
+    </div>
+
+    @section scriptstwo{
+        <script>
+            function ImageAdd() {
+                var attribute = '<div class="form-group"><label>File</label><input type="file" name="file" class="form-control" /></div>';
+                $("#imageArea").append(attribute);    // Insert new elements append card body
+            }
+        </script>
+    }
+    <button type="submit" title="Update" class="btn btn-primary btn-block mb-3">Update Product</button>
+</form>
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Review List</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover">
+
+
+
+
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tbody id="reviews">
+                @if (Model.Reviews.Count == 0)
+                {
+                    <tr>
+                        <td colspan="4" align="center"><b>There is nothing review Here.</b></td>
+                    </tr>
+                }
+                else
+                {
+
+                    @foreach (var item in Model.Reviews)
+                    {
+                        <tr>
+
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Date</td>
+                            <td width="15%">
+                                <a asp-controller="Product" asp-action="ReviewDetails" asp-route-id="@item.Id" title="Edit" class="btn btn-info btn-circle btn-md">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </td>
+                            <td width="15%">
+                                <a asp-controller="Product" asp-action="ReviewDelete" asp-route-id="@item.Id" title="Delete" class="btn btn-danger btn-circle btn-md" onclick="return confirm('Are you sure you want to delete this?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <card class="card-footer">
+
+    </card>
+</div>

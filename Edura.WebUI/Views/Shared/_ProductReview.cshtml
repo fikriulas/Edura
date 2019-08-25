@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Review>
+
+
+
+@foreach (var item in Model)
+{
+    <div class="media">
+        <a class="media-left" href="#">
+            <img alt="" class="img-circle avatar" src="~/Edura/images/team/thumb8_40.jpg">
+        </a>
+        <div class="media-body">
+            <p class="pull-right">
+                <small>
+                    @for (int i = 0; i < item.Point; i++)
+                    {
+                        <i class="fa fa-star"></i>
+                    }
+                </small>
+            </p>
+            <h4 class="media-heading">@item.Name <small>@item.Date.Date</small></h4>
+            @item.Content
+        </div>
+    </div>
+}
+
+

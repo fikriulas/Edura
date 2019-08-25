@@ -1,0 +1,12 @@
+﻿@model  IEnumerable<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Category Index</h1>
+
+@foreach (var item in Model)
+{
+    <p>@item.Name</p>
+    
+}

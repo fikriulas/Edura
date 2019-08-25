@@ -1,0 +1,69 @@
+﻿@model  LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!-- CONTENT START -->
+<section id="content">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="padding25">
+                    <h4>Log <b>In</b></h4>
+                </div>
+
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <input class="form-control input-lg" placeholder="Your Name*" asp-for="Email">
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <input class="form-control input-lg" placeholder="Your Password" asp-for="Password">
+                        </div>
+
+                        <div class="form-group col-xs-12 text-left">
+                            <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-send fa-fw"></i> Login</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="padding25">
+                    <h4>HELLO <b>WORLD</b></h4>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget leo at velit imperdiet varius. In eu ipsum vitae velit congue iaculis vitae at risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+
+                <div class="padding15">
+                    <h4>OUR <b>OFFICE</b></h4>
+                </div>
+                <p><i class="fa fa-map-marker fa-fw"></i> 379 5th Ave, New York, 10001, USA</p>
+                <p><i class="fa fa-phone fa-fw"></i> +(112) 345 6879</p>
+                <p><i class="fa fa-phone fa-fw"></i> +(112) 345 6879</p>
+                <p><i class="fa fa-envelope fa-fw"></i> hello@example.com</p>
+
+                <div class="padding15">
+                    <h4>BUSINESS <b>HOURS</b></h4>
+                </div>
+                <p><i class="fa fa-clock-o fa-fw"></i> Monday - Friday: 9am to 6pm</p>
+                <p><i class="fa fa-clock-o fa-fw"></i> Saturday: 9am to 2pm</p>
+                <p><i class="fa fa-times fa-fw"></i> Sunday: Closed</p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</section>
+<!-- CONTENT END -->

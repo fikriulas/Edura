@@ -1,0 +1,140 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <form asp-controller="Admin" asp-action="AddProduct" method="post" enctype="multipart/form-data">
+        <div class="card shadow mb-4">
+
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Price"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Description"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HtmlContent"></label>
+                    <input asp-for="HtmlContent" class="form-control" />
+                    <span class="text-danger" asp-validation-for="HtmlContent"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsAppproved"></label>
+                    <input asp-for="IsAppproved" class="form-control" />
+                    <span class="text-danger" asp-validation-for="IsAppproved"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsFeatures"></label>
+                    <input asp-for="IsFeatures" class="form-control" />
+                    <span class="text-danger" asp-validation-for="IsFeatures"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsHome"></label>
+                    <input asp-for="IsHome" class="form-control" />
+                    <span class="text-danger" asp-validation-for="IsHome"></span>
+                </div>
+                <div class="form-group">
+                    <select class="selectpicker form-control" name="category[]" asp-items="ViewBag.Categories" multiple></select>
+                </div>
+                <div class="form-group">
+                    <label>File</label>
+                    <input type="file" name="mainFile" class="form-control" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Add Attribute</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="Value" class="col-md-6">
+                        <div class="form-group">
+                            <label>Attribute</label>
+                            <input type="text" name="attribute[]" id="attribute" class="form-control" />
+                        </div>
+                    </div>
+                    <div id="key" class="col-md-6">
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" name="value[]" id="value" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <card class="card-footer">
+                <button type="button" id="AddAttribute" onclick="afterText()" class="btn btn-success">Add Attribute</button>
+            </card>
+
+        </div>
+
+        @section scripts{
+            <script>
+                function afterText() {
+                    var attribute = '<div class="form-group"><label>Attribute</label><input type="text" name="attribute[]" id="attribute" class="form-control" /></div>';
+                    var key = '<div class="form-group"><label>Value</label><input type="text" name="value[]" id="attribute" class="form-control" /></div>';
+
+                    $("#Value").append(attribute);    // Insert new elements after img
+                    $("#key").append(key);    // Insert new elements after img
+
+                }
+            </script>
+        }
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Add Image</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body" id="imageArea">
+                <div class="form-group">
+                    <label>File</label>
+                    <input type="file" name="file" class="form-control" />
+                </div>
+            </div>
+            <card class="card-footer">
+                <button type="button" id="AddImage" onclick="ImageAdd()" class="btn btn-success">Add Image</button>
+            </card>
+        </div>
+        <button type="submit" title="Add" class="btn btn-primary btn-block">Add Product</button>
+        @section scriptstwo{
+            <script>
+                function ImageAdd() {
+                    var attribute = '<div class="form-group"><label>File</label><input type="file" name="file" class="form-control" /></div>';
+                    $("#imageArea").append(attribute);    // Insert new elements append card body
+                }
+            </script>
+        }
+    </form>
